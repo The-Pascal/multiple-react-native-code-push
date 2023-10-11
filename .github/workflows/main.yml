@@ -1,10 +1,10 @@
 name: Node.js Package
 
 on:
-  pull_request:
+  push:
     branches:
       - multipleCodePush
-      
+         
 jobs:
   publish-gpr:
     runs-on: ubuntu-latest
