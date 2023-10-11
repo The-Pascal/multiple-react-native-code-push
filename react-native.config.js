@@ -1,10 +1,10 @@
 module.exports = {
     dependency: {
-        platforms: {
-            android: {
-                packageInstance:
-                    "new CodePush(getResources().getString(R.string.CodePushDeploymentKey), getApplicationContext(), BuildConfig.DEBUG)"
-            }
-        }
-    }
-};
+      platforms: {
+        android: null,
+        ios: null,
+        // add more platform to disable auto-linking for them too
+      },
+    },
+  };
+  
