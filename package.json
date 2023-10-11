@@ -1,7 +1,7 @@
 {
   "name": "react-native-code-push",
   "version": "8.1.0",
-  "description": "React Native plugin for the CodePush service",
+  "description": "React Native plugin for Multiple CodePush service",
   "main": "CodePush.js",
   "typings": "typings/react-native-code-push.d.ts",
   "homepage": "https://microsoft.github.io/code-push",
@@ -10,8 +10,11 @@
     "code",
     "push"
   ],
-  "author": "Microsoft Corporation",
+  "author": "Chandresh Singh",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@the-pascal"
+  },
   "scripts": {
     "clean": "shx rm -rf bin",
     "setup": "npm install --quiet --no-progress",
@@ -32,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/react-native-code-push"
+    "url": "https://github.com/The-Pascal/multiple-react-native-code-push"
   },
   "dependencies": {
     "code-push": "^4.2.0",
