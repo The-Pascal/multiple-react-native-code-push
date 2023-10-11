@@ -1,5 +1,5 @@
 {
-  "name": "react-native-code-push",
+  "name": "@the-pascal/react-native-code-push",
   "version": "8.1.0",
   "description": "React Native plugin for Multiple CodePush service",
   "main": "CodePush.js",
