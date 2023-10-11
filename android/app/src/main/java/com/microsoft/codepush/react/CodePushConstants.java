@@ -3,10 +3,10 @@ package com.microsoft.codepush.react;
 public class CodePushConstants {
     public static final String ASSETS_BUNDLE_PREFIX = "assets://";
     public static final String BINARY_MODIFIED_TIME_KEY = "binaryModifiedTime";
-    public static final String CODE_PUSH_FOLDER_PREFIX = "CodePush";
+    public String CODE_PUSH_FOLDER_PREFIX = "CodePush";
     public static final String CODE_PUSH_HASH_FILE_NAME = "CodePushHash";
     public static final String CODE_PUSH_OLD_HASH_FILE_NAME = "CodePushHash.json";
-    public static final String CODE_PUSH_PREFERENCES = "CodePush";
+    public String CODE_PUSH_PREFERENCES = "CodePush";
     public static final String CURRENT_PACKAGE_KEY = "currentPackage";
     public static final String DEFAULT_JS_BUNDLE_NAME = "index.android.bundle";
     public static final String DIFF_MANIFEST_FILE_NAME = "hotcodepush.json";
@@ -31,4 +31,9 @@ public class CodePushConstants {
     public static final String LATEST_ROLLBACK_PACKAGE_HASH_KEY = "packageHash";
     public static final String LATEST_ROLLBACK_TIME_KEY = "time";
     public static final String LATEST_ROLLBACK_COUNT_KEY = "count";
+
+    public void setCodePushFolderPrefix(String mType) {
+        CODE_PUSH_FOLDER_PREFIX = "CodePush/" + mType;
+        CODE_PUSH_PREFERENCES = "CodePush" + "_" + mType;
+    }
 }

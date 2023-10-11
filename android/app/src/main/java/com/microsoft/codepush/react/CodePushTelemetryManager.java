@@ -24,8 +24,8 @@ public class CodePushTelemetryManager {
     private final String RETRY_DEPLOYMENT_REPORT_KEY = "CODE_PUSH_RETRY_DEPLOYMENT_REPORT";
     private final String STATUS_KEY = "status";
 
-    public CodePushTelemetryManager(Context applicationContext) {
-        mSettings = applicationContext.getSharedPreferences(CodePushConstants.CODE_PUSH_PREFERENCES, 0);
+    public CodePushTelemetryManager(Context applicationContext, CodePushConstants codePushConstants) {
+        mSettings = applicationContext.getSharedPreferences(codePushConstants.CODE_PUSH_PREFERENCES, 0);
     }
 
     public WritableMap getBinaryUpdateReport(String appVersion) {

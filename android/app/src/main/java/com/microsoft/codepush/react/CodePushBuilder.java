@@ -9,11 +9,13 @@ public class CodePushBuilder {
     private boolean mIsDebugMode;
     private String mServerUrl;
     private Integer mPublicKeyResourceDescriptor;
-
-    public CodePushBuilder(String deploymentKey, Context context) {
+    private String mType;
+    
+    public CodePushBuilder(String type, String deploymentKey, Context context) {
         this.mDeploymentKey = deploymentKey;
         this.mContext = context;
         this.mServerUrl = CodePush.getServiceUrl();
+        this.mType = type;
     }
 
     public CodePushBuilder setIsDebugMode(boolean isDebugMode) {
@@ -32,6 +34,6 @@ public class CodePushBuilder {
     }
 
     public CodePush build() {
-        return new CodePush(this.mDeploymentKey, this.mContext, this.mIsDebugMode, this.mServerUrl, this.mPublicKeyResourceDescriptor);
+        return new CodePush(this.mType, this.mDeploymentKey, this.mContext, this.mIsDebugMode, this.mServerUrl, this.mPublicKeyResourceDescriptor);
     }
 }

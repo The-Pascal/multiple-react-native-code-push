@@ -20,8 +20,11 @@ public class CodePushUpdateManager {
 
     private String mDocumentsDirectory;
 
-    public CodePushUpdateManager(String documentsDirectory) {
+	private CodePushConstants codePushConstants;
+
+	public CodePushUpdateManager(String documentsDirectory, CodePushConstants codePushConstants) {
         mDocumentsDirectory = documentsDirectory;
+		this.codePushConstants = codePushConstants;
     }
 
     private String getDownloadFilePath() {
@@ -37,7 +40,7 @@ public class CodePushUpdateManager {
     }
 
     private String getCodePushPath() {
-        String codePushPath = CodePushUtils.appendPathComponent(getDocumentsDirectory(), CodePushConstants.CODE_PUSH_FOLDER_PREFIX);
+		String codePushPath = CodePushUtils.appendPathComponent(getDocumentsDirectory(), codePushConstants.CODE_PUSH_FOLDER_PREFIX);
         if (CodePush.isUsingTestConfiguration()) {
             codePushPath = CodePushUtils.appendPathComponent(codePushPath, "TestPackages");
         }
@@ -184,8 +187,10 @@ public class CodePushUpdateManager {
             long receivedBytes = 0;
 
             File downloadFolder = new File(getCodePushPath());
+			CodePushUtils.log("DownloadFolder: " + downloadFolder);
             downloadFolder.mkdirs();
             downloadFile = new File(downloadFolder, CodePushConstants.DOWNLOAD_FILE_NAME);
+			CodePushUtils.log("DownloadFile: " + downloadFile);
             fos = new FileOutputStream(downloadFile);
             bout = new BufferedOutputStream(fos, CodePushConstants.DOWNLOAD_BUFFER_SIZE);
             byte[] data = new byte[CodePushConstants.DOWNLOAD_BUFFER_SIZE];
@@ -206,6 +211,9 @@ public class CodePushUpdateManager {
 
                 receivedBytes += numBytesRead;
                 bout.write(data, 0, numBytesRead);
+				if(totalBytes == receivedBytes) {
+					CodePushUtils.log("..... FINISHED DOWNLOADING ...." + totalBytes + " bytes");
+				}
                 progressCallback.call(new DownloadProgress(totalBytes, receivedBytes));
             }
 
@@ -230,6 +238,7 @@ public class CodePushUpdateManager {
         if (isZip) {
             // Unzip the downloaded file and then delete the zip
             String unzippedFolderPath = getUnzippedFolderPath();
+			CodePushUtils.log("UnzippedFolderPath: " + unzippedFolderPath);
             FileUtils.unzipFile(downloadFile, unzippedFolderPath);
             FileUtils.deleteFileOrFolderSilently(downloadFile);
 
@@ -267,13 +276,13 @@ public class CodePushUpdateManager {
 
                 boolean isSignatureVerificationEnabled = (stringPublicKey != null);
 
-                String signaturePath = CodePushUpdateUtils.getSignatureFilePath(newUpdateFolderPath);
+                String signaturePath = CodePushUpdateUtils.getSignatureFilePath(newUpdateFolderPath, codePushConstants);
                 boolean isSignatureAppearedInBundle = FileUtils.fileAtPathExists(signaturePath);
 
                 if (isSignatureVerificationEnabled) {
                     if (isSignatureAppearedInBundle) {
                         CodePushUpdateUtils.verifyFolderHash(newUpdateFolderPath, newUpdateHash);
-                        CodePushUpdateUtils.verifyUpdateSignature(newUpdateFolderPath, newUpdateHash, stringPublicKey);
+                        CodePushUpdateUtils.verifyUpdateSignature(newUpdateFolderPath, newUpdateHash, stringPublicKey, codePushConstants);
                     } else {
                         throw new CodePushInvalidUpdateException(
                                 "Error! Public key was provided but there is no JWT signature within app bundle to verify. " +

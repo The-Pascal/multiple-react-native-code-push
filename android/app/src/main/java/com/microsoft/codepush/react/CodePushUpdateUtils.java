@@ -216,15 +216,15 @@ public class CodePushUpdateUtils {
         }
     }
 
-    public static String getSignatureFilePath(String updateFolderPath){
+    public static String getSignatureFilePath(String updateFolderPath, CodePushConstants codePushConstants){
         return CodePushUtils.appendPathComponent(
-                CodePushUtils.appendPathComponent(updateFolderPath, CodePushConstants.CODE_PUSH_FOLDER_PREFIX),
+                CodePushUtils.appendPathComponent(updateFolderPath, codePushConstants.CODE_PUSH_FOLDER_PREFIX),
                 CodePushConstants.BUNDLE_JWT_FILE
         );
     }
 
-    public static String getSignature(String folderPath) {
-        final String signatureFilePath = getSignatureFilePath(folderPath);
+    public static String getSignature(String folderPath, CodePushConstants codePushConstants) {
+        final String signatureFilePath = getSignatureFilePath(folderPath, codePushConstants);
 
         try {
             return FileUtils.readFileToString(signatureFilePath);
@@ -235,7 +235,7 @@ public class CodePushUpdateUtils {
         }
     }
 
-    public static void verifyUpdateSignature(String folderPath, String packageHash, String stringPublicKey) throws CodePushInvalidUpdateException {
+    public static void verifyUpdateSignature(String folderPath, String packageHash, String stringPublicKey, CodePushConstants codePushConstants) throws CodePushInvalidUpdateException {
         CodePushUtils.log("Verifying signature for folder path: " + folderPath);
 
         final PublicKey publicKey = parsePublicKey(stringPublicKey);
@@ -243,7 +243,7 @@ public class CodePushUpdateUtils {
             throw new CodePushInvalidUpdateException("The update could not be verified because no public key was found.");
         }
 
-        final String signature = getSignature(folderPath);
+        final String signature = getSignature(folderPath, codePushConstants);
         if (signature == null) {
             throw new CodePushInvalidUpdateException("The update could not be verified because no signature was found.");
         }

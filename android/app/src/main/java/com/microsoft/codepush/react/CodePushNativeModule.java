@@ -195,7 +195,7 @@ public class CodePushNativeModule extends ReactContextBaseJavaModule {
 
     // Use reflection to find the ReactInstanceManager. See #556 for a proposal for a less brittle way to approach this.
     private ReactInstanceManager resolveInstanceManager() throws NoSuchFieldException, IllegalAccessException {
-        ReactInstanceManager instanceManager = CodePush.getReactInstanceManager();
+        ReactInstanceManager instanceManager = mCodePush.getReactInstanceManager();
         if (instanceManager != null) {
             return instanceManager;
         }

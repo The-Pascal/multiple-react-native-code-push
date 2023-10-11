@@ -11,8 +11,8 @@ public class SettingsManager {
 
     private SharedPreferences mSettings;
 
-    public SettingsManager(Context applicationContext) {
-        mSettings = applicationContext.getSharedPreferences(CodePushConstants.CODE_PUSH_PREFERENCES, 0);
+    public SettingsManager(Context applicationContext, CodePushConstants codePushConstants) {
+        mSettings = applicationContext.getSharedPreferences(codePushConstants.CODE_PUSH_PREFERENCES, 0);
     }
 
     public JSONArray getFailedUpdates() {
