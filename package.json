@@ -13,7 +13,7 @@
   "author": "Chandresh Singh",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@the-pascal"
+    "registry": "https://registry.npmjs.org/@the-pascal"
   },
   "scripts": {
     "clean": "shx rm -rf bin",
