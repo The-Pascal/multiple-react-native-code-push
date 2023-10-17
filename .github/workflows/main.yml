@@ -1,9 +1,8 @@
-name: Node.js Package
+name: Publish package to npm
 
 on:
-  push:
-    branches:
-      - multipleCodePush
+  release:
+    types: [published]
          
 jobs:
   publish-gpr:
