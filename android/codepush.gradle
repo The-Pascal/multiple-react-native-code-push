@@ -34,11 +34,11 @@ gradle.projectsEvaluated {
 
         def nodeModulesPath;
         if (config.root) {
-            nodeModulesPath = Paths.get(config.root.asFile.get().absolutePath, "/node_modules");
+            nodeModulesPath = Paths.get(config.root.asFile.get().absolutePath, "/node_modules/@the-pascal");
         } else if (project.hasProperty('nodeModulesPath')) {
             nodeModulesPath = project.nodeModulesPath
         } else {
-            nodeModulesPath = "../../node_modules";
+            nodeModulesPath = "../../node_modules/@the-pascal";
         }
 
         def targetName = variant.name.capitalize()
