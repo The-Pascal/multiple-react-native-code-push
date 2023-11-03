@@ -1,3 +1,94 @@
+# Multiple CodePush in same application
+
+<a href="https://www.npmjs.com/package/@the-pascal/react-native-code-push">![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)</a>
+
+<a href="https://medium.com/@chaharchandresh/multiple-codepush-in-same-application-5e3f57a9ae0b"><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*3Af9p_25Mzm0QQYljedQMA.png" height="400" width="720" ></a>
+
+In the world of React Native development, you’re likely no stranger to the incredible power of CodePush. It’s a game-changer, allowing you to push real-time updates to your app without the hassle of traditional app store updates. But what if I told you there’s a way to supercharge CodePush and take it to the next level?
+
+In an era where multi-modular app designs are gaining ground, the idea of using CodePush to update multiple bundles within the same application becomes incredibly intriguing. And that’s precisely what you can achieve with this library.
+
+I have also covered an in-depth review of the changes that I have done to enable multiple CodePush in single application, and you can find it in this article - 
+
+<a target="_blank" href="https://github-readme-medium-recent-article.vercel.app/medium/@chaharchandresh/0"><img src="https://github-readme-medium-recent-article.vercel.app/medium/@chaharchandresh/0" alt="Recent article #1"></a>
+<a href="https://www.npmjs.com/package/@the-pascal/react-native-code-push"><img width="628" alt="npm library" src="https://github.com/The-Pascal/multiple-react-native-code-push/assets/54761454/7a22f5a8-e497-44e1-91c1-f34a5deea386"></a>
+
+## Using the library
+
+- You can directly install the library in your react-native project —
+```
+npm i @the-pascal/react-native-code-push
+
+or
+
+yarn install @the-pascal/react-native-code-push
+```
+
+- Now add CodePush similar to how you will add in an Android project.<a href="https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-android.md">for more info</a>
+
+- Add to settings.gradle
+```
+project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/@the-pascal/react-native-code-push/android/app')
+
+```
+
+- Add in build.gradle > dependencies
+```
+apply from: "../../node_modules/@the-pascal/react-native-code-push/android/codepush.gradle"
+
+// rest of code
+
+dependencies {
+
+  implementation project(':react-native-code-push')
+
+  // rest of code
+
+}
+```
+
+- Since, we have removed auto-linking for CodePush, we will create our own CodePush object —
+```
+    fun createCodepushInstance(context: Context): CodePush {
+        return CodePush(CodePushType, CodepushDeploymentKey, context, true)
+    }
+
+```
+
+- Now depending on how you get your js bundle, do something similar to -
+```
+    override fun getJSBundleFile(): String? {
+        return codePush.getJSBundleFile() // return js bundle from your created codepush object
+    }
+
+    override fun getPackages(): MutableList<ReactPackage> {
+        val packages: MutableList<ReactPackage> = PackageList(this).packages
+        packages.add(codePush) // add codepush package manually
+        return packages
+    }
+```
+
+- Finally, wrap your app component with codePush -
+
+```
+import codePush from '@the-pascal/react-native-code-push';
+
+// codepush options to change default codepush settings
+const CodePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
+  updateDialog: false,
+};
+
+AppRegistry.registerComponent('appname', () =>
+  codePush(CodePushOptions)(mainApp) // wrap with codePush
+);
+
+```
+
+<br/>
+<br />
+
 [![appcenterbanner](https://user-images.githubusercontent.com/31293287/32969262-3cc5d48a-cb99-11e7-91bf-fa57c67a371c.png)](http://microsoft.github.io/code-push/)
 
 #### [Sign up With App Center](https://appcenter.ms/signup?utm_source=CodePush&utm_medium=Azure) to use CodePush
